@@ -1,0 +1,45 @@
+.container {
+    width: 500px
+}
+
+.grid {
+    height: 400px;
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #dcd6bc;
+    margin-left: 50px;
+    margin-top: 20px;
+    border: 10px solid #dcd6bc;
+    margin-bottom: 10px;
+}
+
+div {
+    font-size: 10px;
+    text-align: center;
+    text-wrap: wrap;
+    font-family: "Roboto Mono", monospace;
+}
+
+/* .empty, .planePart1, .planePart2, .planePart3, .columnClue, .rowClue, .oasis, .mirage  */
+[id^="sq"] {
+    width: 80px;
+    height: 80px;
+    border: 5px solid;
+    border-color: #f5f3eb #bab7a9 #bab7a9 #fff9db;
+    box-sizing: border-box;
+}
+
+.oasis, .mirage {
+    background-color: #f5f3eb;
+}
+
+
+[class^="player"] {
+    width: 80px;
+    height: 80px;
+    border: 5px solid;
+    border-color: blue;
+    box-sizing: border-box;
+    background-color: blue;
+}
