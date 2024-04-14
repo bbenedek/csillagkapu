@@ -22,24 +22,54 @@ div {
 }
 
 /* .empty, .planePart1, .planePart2, .planePart3, .columnClue, .rowClue, .oasis, .mirage  */
-[id^="sq"] {
+[id^=sq] {
     width: 80px;
     height: 80px;
     border: 5px solid;
     border-color: #f5f3eb #bab7a9 #bab7a9 #fff9db;
     box-sizing: border-box;
+    position: relative;
 }
+
+[id^="sq"] img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.background {
+    opacity: 0;
+}
+
+[class*="dug"] {
+    background-color: brown;
+}
+
+[id^=sq] .dug {
+    background-color: #c4a934;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /* opacity: 1; */
+    z-index: -1;
+}
+
 
 .oasis, .mirage {
-    background-color: #f5f3eb;
+    background-color: #ebe0b6;
 }
 
 
-[class*="player"] {
+/* [id*="player"] {
     width: 80px;
     height: 80px;
     border: 5px solid;
     border-color: blue;
     box-sizing: border-box;
     background-color: blue;
-}
+} */
