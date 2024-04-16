@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "sq" + (i * width + j) + "-player1"
                     );
                     const playerImg = document.createElement("img");
-                    playerImg.setAttribute("src", "//Assets/Player.png");
+                    playerImg.setAttribute("src", "./Assets/Player.png");
                     playerImg.setAttribute("id", "playerImg");
                     square.appendChild(playerImg);
                 }
