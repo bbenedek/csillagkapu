@@ -1,5 +1,17 @@
+body {
+    font-family: "Roboto Mono", monospace;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+}
+
 .container {
-    width: 500px
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Three columns: player info, grid, plane parts info */
+    grid-template-rows: auto 1fr auto; /* Three rows: player info, grid, dig button */
+    gap: 20px; /* Gap between grid items */
 }
 
 .grid {
@@ -7,26 +19,26 @@
     width: 400px;
     display: flex;
     flex-wrap: wrap;
-    background-color: #dcd6bc;
+    background-color: rgb(252, 237, 207);
     margin-left: 50px;
     margin-top: 20px;
-    border: 10px solid #dcd6bc;
+    border: 8px solid rgb(252, 237, 207);
     margin-bottom: 10px;
+    grid-column: 2; /* Align on the second column */
+    grid-row: 1 / span 3; /* Align on the first row, spanning three rows */
 }
 
 div {
-    font-size: 10px;
-    text-align: center;
-    text-wrap: wrap;
+    font-size: 16px; /* Increase font size for better readability */
+    text-align: left;
     font-family: "Roboto Mono", monospace;
 }
 
-/* .empty, .planePart1, .planePart2, .planePart3, .columnClue, .rowClue, .oasis, .mirage  */
 [id^=sq] {
     width: 80px;
     height: 80px;
     border: 5px solid;
-    border-color: #f5f3eb #bab7a9 #bab7a9 #fff9db;
+    border-color: #fff6f6 #d6d1b8 #d6d1b8 #fffae3;
     box-sizing: border-box;
     position: relative;
 }
@@ -40,36 +52,75 @@ div {
     z-index: 1;
 }
 
-.background {
-    opacity: 0;
+#playerInfoContainer {
+    grid-column: 1; /* Align on the first column */
+    grid-row: 1; /* Align on the first row */
+}
+
+.small-icon {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.icon {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    cursor: pointer; /* Add cursor pointer for button */
+    transition: transform 0.2s ease; /* Add transition effect */
+}
+
+/* Add hover effect for button */
+.icon:hover {
+    transform: scale(1.05); /* Scale up on hover */
+}
+
+.hole {
+    background-color: rgb(252, 237, 207);
 }
 
 [class*="dug"] {
-    background-color: brown;
+    background-color: rgb(252, 237, 207);
 }
-
-[id^=sq] .dug {
-    background-color: #c4a934;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    /* opacity: 1; */
-    z-index: -1;
-}
-
 
 .oasis, .mirage {
     background-color: #ebe0b6;
 }
 
+#planePartsInfo {
+    grid-column: 3; /* Align on the third column */
+    grid-row: 1; /* Align on the first row */
+}
 
-/* [id*="player"] {
-    width: 80px;
-    height: 80px;
-    border: 5px solid;
-    border-color: blue;
-    box-sizing: border-box;
-    background-color: blue;
-} */
+.planePartInfo p {
+    margin: 0;
+    text-align: left;
+}
+
+.planePartInfo p:nth-child(2) {
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* Style the button container */
+.dig-container {
+    grid-column: 2; /* Align on the second column */
+    grid-row: 3; /* Align on the third row */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-bottom: 20px; /* Add some margin at the bottom */
+}
+
+.player-moving {
+    animation: movePlayer 0.5s linear forwards; /* Use forwards to keep the final state */
+}
+
+@keyframes movePlayerAnimation {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(var(--translate-x), var(--translate-y)); }
+}

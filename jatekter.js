@@ -1,14 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
     const grid = document.querySelector(".grid");
     const width = 5;
-    const numberOfPlaneParts = 3;
-    const numberOfClues = numberOfPlaneParts * 2;
-    let numberOfActionsLeft = 3;
     let squares = [];
     let dugTiles = [];
     let playerPosition = { x: 2, y: 2 };
-    let currentPlayerPosition;
-    let selectedAction = null; // Variable to track the selected action
+    let selectedAction = null;
 
     const oasisArray = ["oasis", "oasis", "oasis", "mirage"];
     const planePartsArray = ["planePart1", "planePart2", "planePart3"];
@@ -25,22 +21,22 @@ document.addEventListener("DOMContentLoaded", function () {
             rowClue: null,
             columnClue: null,
             imgSrc: "/Assets/Item1.png",
-            rowClueSrc: "/Assets/clue1row.png",
-            columnClueSrc: "/Assets/clue1col.png",
+            rowClueSrc: "/Assets/cluerow1.png",
+            columnClueSrc: "/Assets/cluecol1.png",
         },
         planePart2: {
             rowClue: null,
             columnClue: null,
             imgSrc: "/Assets/Item2.png",
-            rowClueSrc: "/Assets/clue2row.png",
-            columnClueSrc: "/Assets/clue2col.png",
+            rowClueSrc: "/Assets/cluerow2.png",
+            columnClueSrc: "/Assets/cluecol2.png",
         },
         planePart3: {
             rowClue: null,
             columnClue: null,
             imgSrc: "/Assets/Item3.png",
-            rowClueSrc: "/Assets/clue3row.png",
-            columnClueSrc: "/Assets/clue3col.png",
+            rowClueSrc: "/Assets/cluerow3.png",
+            columnClueSrc: "/Assets/cluecol3.png",
         },
     };
 
@@ -84,38 +80,27 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        for (let i = 0; i < width; i++) {
-            for (let j = 0; j < width; j++) {
-                if (squares[i][j].startsWith("rowClue")) {
-                    const clueNumber = squares[i][j].slice(-1);
-                    squares[i][j] +=
-                        "-" + planePartsData[`planePart${clueNumber}`].rowClue;
-                }
-            }
-        }
-
-        for (let i = 0; i < width; i++) {
-            for (let j = 0; j < width; j++) {
-                if (squares[i][j].startsWith("columnClue")) {
-                    const clueNumber = squares[i][j].slice(-1);
-                    squares[i][j] +=
-                        "-" +
-                        planePartsData[`planePart${clueNumber}`].columnClue;
-                }
-            }
-        }
+        // for (let i = 0; i < width; i++) {
+        //     for (let j = 0; j < width; j++) {
+        //         if (squares[i][j].startsWith("planePart")) {
+        //             const planePartNumber = squares[i][j].slice(-1);
+        //             const rowCluePos = planePartsData[`planePart${planePartNumber}`].columnClue - 1;
+        //             const colCluePos = planePartsData[`planePart${planePartNumber}`].rowClue - 1;
+        //             [squares[i][j], squares[colCluePos][rowCluePos]] = [squares[colCluePos][rowCluePos], squares[i][j]];
+        //         }
+        //     }
+        // }
     }
 
-    let players = []; // Array to store player objects
+    let players = [];
 
-    // Function to add a new player
     function addPlayer() {
-        const playerName = "Bela"; // Change to prompt("Enter player's name:");
+        const playerName = "Bela";
         if (playerName) {
             const newPlayer = {
                 name: playerName,
-                actionsLeft: 3, // Initial actions left
-                bottlesOfWater: 6, // Initial bottles of water left
+                actionsLeft: 3,
+                bottlesOfWater: 6,
             };
             players.push(newPlayer);
             console.log(`Player ${playerName} added.`);
@@ -124,31 +109,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Example usage:
-    addPlayer(); // Call this function whenever you want to add a new player
+    addPlayer();
 
-    // After collecting player data
     function playerData() {
         const playerInfoContainer = document.getElementById(
             "playerInfoContainer"
         );
 
-        // Clear any existing content in the container
         playerInfoContainer.innerHTML = "";
 
-        // Loop through the player data and create elements to display it
         for (let i = 0; i < players.length; i++) {
             const playerDiv = document.createElement("div");
             playerDiv.classList.add("player-info");
 
             const playerName = document.createElement("h2");
-            playerName.textContent = `Player ${i + 1}: ${players[i].name}`;
+            playerName.innerHTML = `Player ${i + 1}: ${players[i].name}`;
 
-            const actionsLeft = document.createElement("p");
-            actionsLeft.textContent = `Actions left: ${players[i].actionsLeft}`;
+            const actionsLeft = document.createElement("div");
+            actionsLeft.innerHTML = `<img src="/Assets/actions.png" class="small-icon"></img>Actions left: ${players[i].actionsLeft}`;
 
             const waterBottles = document.createElement("p");
-            waterBottles.textContent = `Water bottles left: ${players[i].bottlesOfWater}`;
+            waterBottles.innerHTML = `<img src="/Assets/Water.png" class="small-icon"></img>Water bottles left: ${players[i].bottlesOfWater}`;
 
             playerDiv.appendChild(playerName);
             playerDiv.appendChild(actionsLeft);
@@ -201,8 +182,12 @@ document.addEventListener("DOMContentLoaded", function () {
     createSquaresMatrix(shuffledArray);
     createBoard();
     playerData();
+    updatePlanePartsData();
 
     function isAdjacent(x1, y1, x2, y2) {
+        if (x2 === 2 && y2 === 2) {
+            return false;
+        }
         return Math.abs(x1 - x2) + Math.abs(y1 - y2) === 1;
     }
 
@@ -230,6 +215,12 @@ document.addEventListener("DOMContentLoaded", function () {
         newPlayerImg.setAttribute("id", "playerImg");
 
         newPlayerSquare.appendChild(newPlayerImg);
+
+        newPlayerSquare.classList.add("player-moving");
+
+        setTimeout(() => {
+            newPlayerSquare.classList.remove("player-moving");
+        }, 500);
     }
 
     function dig(clickedX, clickedY) {
@@ -243,35 +234,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (markerImg) {
             if (currentPlayerTile === "oasis") {
-                markerImg.src = "/Assets/Oasis.png";
-            } else if (currentPlayerTile === "mirage") {
-                markerImg.src = "/Assets/Drought.png";
-            }
-            players[0].actionsLeft--;
-        } else if (tileImg) {
-            if (!dugTiles.includes(`${clickedX},${clickedY}`)) {
-                if (currentPlayerTile.startsWith("planePart")) {
-                    const planePartNumber = currentPlayerTile.slice(-1);
-                    tileImg.src =
-                        planePartsData[`planePart${planePartNumber}`].imgSrc;
-                    tileImg.style.opacity = 1;
-                } else if (currentPlayerTile === "empty") {
-                    currentSquare.classList.add("dug");
-                }
-                dugTiles.push(`${clickedX},${clickedY}`);
-
                 players[0].actionsLeft--;
-
-                if (players[0].bottlesOfWater === 0) {
-                    console.log("Game Over! You ran out of water bottles.");
-                }
+                markerImg.src = "/Assets/Oasis.png";
+                players[0].bottlesOfWater = 6;
+            } else if (
+                currentPlayerTile === "mirage" &&
+                !dugTiles.includes(`${clickedX},${clickedY}`)
+            ) {
+                players[0].actionsLeft--;
+                markerImg.src = "/Assets/Drought.png";
+                dugTiles.push(`${clickedX},${clickedY}`);
             } else {
-                console.log("This tile has already been dug.");
+                console.log(
+                    "This tile has already been dug or is not a mirage."
+                );
+                return;
             }
+        } else if (tileImg && !dugTiles.includes(`${clickedX},${clickedY}`)) {
+            if (currentPlayerTile.startsWith("planePart")) {
+                const planePartNumber = currentPlayerTile.slice(-1);
+                tileImg.src =
+                    planePartsData[`planePart${planePartNumber}`].imgSrc;
+                tileImg.style.opacity = 1;
+            } else if (currentPlayerTile.startsWith("rowClue")) {
+                const clueNumber = currentPlayerTile.slice(-1);
+                console.log(clueNumber);
+                tileImg.src =
+                    planePartsData[`planePart${clueNumber}`].rowClueSrc;
+                tileImg.style.opacity = 1;
+            } else if (currentPlayerTile.startsWith("columnClue")) {
+                const clueNumber = currentPlayerTile.slice(-1);
+                tileImg.src =
+                    planePartsData[`planePart${clueNumber}`].columnClueSrc;
+                tileImg.style.opacity = 1;
+                
+            } else if (currentPlayerTile === "empty") {
+                tileImg.src = "/Assets/Hole.png";
+                tileImg.style.opacity = 1;
+                tileImg.setAttribute("class", "hole");
+            }
+            dugTiles.push(`${clickedX},${clickedY}`);
+            players[0].actionsLeft--;
+
+            if (
+                players[0].bottlesOfWater === 0 &&
+                players[0].actionsLeft === 0
+            ) {
+                console.log("Game Over! You ran out of water bottles.");
+            }
+        } else {
+            console.log("This tile has already been dug.");
         }
     }
 
     grid.addEventListener("click", function (event) {
+
         const clickedElement = event.target;
 
         if (clickedElement.tagName === "IMG" || clickedElement.closest("img")) {
@@ -317,16 +334,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const clickedX = clickedIndex % width;
             const clickedY = Math.floor(clickedIndex / width);
 
-            if (players[0].actionsLeft > 0 && selectedAction !== null) {
-                if (selectedAction === "dig") {
-                    console.log("You chose to DIG.");
-                    dig(clickedX, clickedY);
-                    players[0].actionsLeft--;
-                    playerData();
+            if (players[0].actionsLeft > 0) {
+                dig(clickedX, clickedY);
+                players[0].actionsLeft--;
+                playerData();
 
-                    if (players[0].bottlesOfWater === 0) {
-                        console.log("Game Over! You ran out of water bottles.");
-                    }
+                if (
+                    players[0].bottlesOfWater === 0 &&
+                    players[0].actionsLeft === 0
+                ) {
+                    console.log("Game Over! You ran out of water bottles.");
                 }
             } else {
                 console.log(
@@ -338,27 +355,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const digButton = document.querySelector(".dig");
     digButton.addEventListener("click", function () {
-        selectedAction = "dig";
 
-        if (players[0].actionsLeft > 0) {
-
+        if (players[0].actionsLeft > 0 && players[0].bottlesOfWater > 0) {
             dig(playerPosition.x, playerPosition.y);
-
-            // players[0].actionsLeft--;
             playerData();
 
-            if (players[0].bottlesOfWater === 0) {
+            if (
+                players[0].bottlesOfWater === 0 &&
+                players[0].actionsLeft === 0
+            ) {
                 console.log("Game Over! You ran out of water bottles.");
                 return;
             }
 
-            if (players[0].actionsLeft === 0) {
-                players[0].bottlesOfWater--;
-                playerData();
+            if (players[0].actionsLeft < 1) {
+                console.log("ugysem tortenik semmi");
                 players[0].actionsLeft = 3;
+                playerData();
             }
         } else {
             console.log("You have no more actions left.");
         }
     });
+
+    function updatePlanePartsData() {
+        const container = document.getElementById("planePartsInfo");
+        Object.values(planePartsData).forEach((part) => {
+            const planePartDiv = document.createElement("div");
+            planePartDiv.classList.add("plane-part-info");
+
+            const image = document.createElement("img");
+            image.src = part.imgSrc;
+            image.classList.add("icon");
+            planePartDiv.appendChild(image);
+
+            const labelsDiv = document.createElement("div");
+            labelsDiv.classList.add("plane-part-labels");
+
+            const columnLabel = document.createElement("p");
+            columnLabel.textContent = `COLUMN: ${part.columnClue}`;
+            const rowLabel = document.createElement("p");
+            rowLabel.textContent = `ROW: ${part.rowClue}`;
+
+            labelsDiv.appendChild(columnLabel);
+            labelsDiv.appendChild(rowLabel);
+
+            planePartDiv.appendChild(labelsDiv);
+
+            container.appendChild(planePartDiv);
+        });
+    }
 });
