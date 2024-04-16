@@ -11,27 +11,27 @@ document.addEventListener("DOMContentLoaded", function () {
             rowClueY: null,
             columnClueX: null,
             columnClueY: null,
-            imgSrc: "../Assets/Item1.png",
-            rowClueSrc: "../Assets/cluecol1.png",
-            columnClueSrc: "../Assets/cluerow1.png",
+            imgSrc: "./Assets/Item1.png",
+            rowClueSrc: "./Assets/cluecol1.png",
+            columnClueSrc: "./Assets/cluerow1.png",
         },
         planePart2: {
             rowClueX: null,
             rowClueY: null,
             columnClueX: null,
             columnClueY: null,
-            imgSrc: "../Assets/Item2.png",
-            rowClueSrc: "../Assets/cluecol2.png",
-            columnClueSrc: "../Assets/cluerow2.png",
+            imgSrc: "./Assets/Item2.png",
+            rowClueSrc: "./Assets/cluecol2.png",
+            columnClueSrc: "./Assets/cluerow2.png",
         },
         planePart3: {
             rowClueX: null,
             rowClueY: null,
             columnClueX: null,
             columnClueY: null,
-            imgSrc: "../Assets/Item3.png",
-            rowClueSrc: "../Assets/cluecol3.png",
-            columnClueSrc: "../Assets/cluerow3.png",
+            imgSrc: "./Assets/Item3.png",
+            rowClueSrc: "./Assets/cluecol3.png",
+            columnClueSrc: "./Assets/cluerow3.png",
         },
     };
     const planePartsArray = ["planePart1", "planePart2", "planePart3"];
@@ -183,10 +183,10 @@ document.addEventListener("DOMContentLoaded", function () {
             playerName.innerHTML = `Player ${i + 1}: ${players[i].name}`;
 
             const actionsLeft = document.createElement("div");
-            actionsLeft.innerHTML = `<img src="../Assets/actions.png" class="small-icon"></img>Actions left: ${players[i].actionsLeft}`;
+            actionsLeft.innerHTML = `<img src="./Assets/actions.png" class="small-icon"></img>Actions left: ${players[i].actionsLeft}`;
 
             const waterBottles = document.createElement("p");
-            waterBottles.innerHTML = `<img src="../Assets/Water.png" class="small-icon"></img>Water bottles left: ${players[i].bottlesOfWater}`;
+            waterBottles.innerHTML = `<img src="./Assets/Water.png" class="small-icon"></img>Water bottles left: ${players[i].bottlesOfWater}`;
 
             playerDiv.appendChild(playerName);
             playerDiv.appendChild(actionsLeft);
@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
         newPlayerSquare.setAttribute("id", `sq${newY * width + newX}-player1`);
 
         const newPlayerImg = document.createElement("img");
-        newPlayerImg.setAttribute("src", "../Assets/Player.png");
+        newPlayerImg.setAttribute("src", "./Assets/Player.png");
         newPlayerImg.setAttribute("id", "playerImg");
 
         newPlayerSquare.appendChild(newPlayerImg);
@@ -293,14 +293,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (markerImg) {
             if (currentPlayerTile === "oasis") {
                 players[0].actionsLeft--;
-                markerImg.src = "../Assets/Oasis.png";
+                markerImg.src = "./Assets/Oasis.png";
                 players[0].bottlesOfWater = 6;
             } else if (
                 currentPlayerTile === "mirage" &&
                 !dugTiles.includes(`${clickedX},${clickedY}`)
             ) {
                 players[0].actionsLeft--;
-                markerImg.src = "../Assets/Drought.png";
+                markerImg.src = "./Assets/Drought.png";
                 dugTiles.push(`${clickedX},${clickedY}`);
             } else {
                 console.log(
@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     planePartsData[`planePart${clueNumber}`].columnClueSrc;
                 tileImg.style.opacity = 1;
             } else if (currentPlayerTile === "empty") {
-                tileImg.src = "../Assets/Hole.png";
+                tileImg.src = "./Assets/Hole.png";
                 tileImg.style.opacity = 1;
                 tileImg.setAttribute("class", "hole");
             }
