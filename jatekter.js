@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const img = document.createElement("img");
 
                 if (squares[i][j] === "oasis" || squares[i][j] === "mirage") {
-                    img.setAttribute("src", "../Assets/Oasis_marker.png");
+                    img.setAttribute("src", "Assets/Oasis_marker.png");
                     img.setAttribute("class", "oasis-marker");
                     square.appendChild(img);
                 } else if (i * width + j === middleIndex) {
