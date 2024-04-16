@@ -212,10 +212,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     img.setAttribute("class", "oasis-marker");
                     square.appendChild(img);
                 } else if (i * width + j === middleIndex) {
-                    img.setAttribute("src", "../Assets/Stargate.png");
+                    img.setAttribute("src", "./Assets/Stargate.png");
                     square.appendChild(img);
                 } else {
-                    img.setAttribute("src", "../Assets/background.png");
+                    img.setAttribute("src", "./Assets/background.png");
                     img.setAttribute("class", "background");
                     square.appendChild(img);
                 }
