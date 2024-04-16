@@ -174,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function addPlayer() {
         const playerName = prompt("Enter player name:");
+        // const playerName = "Ferenc";
         if (playerName) {
             const newPlayer = {
                 name: playerName,
@@ -255,14 +256,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    addPlayer();
     createSquaresMatrix(shuffledArray);
     // everyThingsInPlace(squares);
-    if (!everyThingsInPlace(squares)) {
-        alert("The board did not generate properly. Please refresh the page.");
+    if (everyThingsInPlace(squares)) {
+        addPlayer();
+        createBoard();
+        playerData();
     }
-    createBoard();
-    playerData();
+    else {
+        alert("The board did not generate properly. Please refresh the page.");
+        squares = [];
+    }
 
     function isAdjacent(x1, y1, x2, y2) {
         if (x2 === 2 && y2 === 2) {
