@@ -1,17 +1,18 @@
 body {
     font-family: "Roboto Mono", monospace;
     height: 100%;
-    margin: 0;
+    margin-left: 50px;
     display: flex;
-    justify-content: center; /* Horizontally center */
-    align-items: center; /* Vertically center */
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(243, 243, 243);
 }
 
 .container {
     display: grid;
-    grid-template-columns: auto 1fr auto; /* Three columns: player info, grid, plane parts info */
-    grid-template-rows: auto 1fr auto; /* Three rows: player info, grid, dig button */
-    gap: 20px; /* Gap between grid items */
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto 1fr auto;
+    gap: 20px;
 }
 
 .grid {
@@ -24,12 +25,12 @@ body {
     margin-top: 20px;
     border: 8px solid rgb(252, 237, 207);
     margin-bottom: 10px;
-    grid-column: 2; /* Align on the second column */
-    grid-row: 1 / span 3; /* Align on the first row, spanning three rows */
+    grid-column: 2;
+    grid-row: 1 / span 3;
 }
 
 div {
-    font-size: 16px; /* Increase font size for better readability */
+    font-size: 16px;
     text-align: left;
     font-family: "Roboto Mono", monospace;
 }
@@ -53,8 +54,8 @@ div {
 }
 
 #playerInfoContainer {
-    grid-column: 1; /* Align on the first column */
-    grid-row: 1; /* Align on the first row */
+    grid-column: 1; 
+    grid-row: 1; 
 }
 
 .small-icon {
@@ -69,15 +70,14 @@ div {
     position: relative;
     top: 0;
     left: 0;
-    width: 80px;
-    height: 80px;
-    cursor: pointer; /* Add cursor pointer for button */
-    transition: transform 0.2s ease; /* Add transition effect */
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-/* Add hover effect for button */
 .icon:hover {
-    transform: scale(1.05); /* Scale up on hover */
+    transform: scale(1.05);
 }
 
 .hole {
@@ -92,32 +92,16 @@ div {
     background-color: #ebe0b6;
 }
 
-#planePartsInfo {
-    grid-column: 3; /* Align on the third column */
-    grid-row: 1; /* Align on the first row */
-}
-
-.planePartInfo p {
-    margin: 0;
-    text-align: left;
-}
-
-.planePartInfo p:nth-child(2) {
-    margin-top: 5px;
-    font-weight: bold;
-}
-
-/* Style the button container */
 .dig-container {
-    grid-column: 2; /* Align on the second column */
-    grid-row: 3; /* Align on the third row */
+    grid-column: 2;
+    grid-row: 3; 
     display: flex;
-    justify-content: center; /* Center horizontally */
-    margin-bottom: 20px; /* Add some margin at the bottom */
+    justify-content: center;
+    border: 5px solid black;
 }
 
 .player-moving {
-    animation: movePlayer 0.5s linear forwards; /* Use forwards to keep the final state */
+    animation: movePlayer 0.5s linear forwards;
 }
 
 @keyframes movePlayerAnimation {

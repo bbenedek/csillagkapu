@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let planePartsData = {
         planePart1: {
+            position: null,
             rowClueX: null,
             rowClueY: null,
             columnClueX: null,
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
             columnClueSrc: "./Assets/cluerow1.png",
         },
         planePart2: {
+            position: null,
             rowClueX: null,
             rowClueY: null,
             columnClueX: null,
@@ -25,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             columnClueSrc: "./Assets/cluerow2.png",
         },
         planePart3: {
+            position: null,
             rowClueX: null,
             rowClueY: null,
             columnClueX: null,
@@ -37,30 +40,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const planePartsArray = ["planePart1", "planePart2", "planePart3"];
 
     const oasisArray = ["oasis", "oasis", "oasis", "mirage"];
-    // const cluesArray = [
-    //     "rowClue1",
-    //     "columnClue1",
-    //     "rowClue2",
-    //     "columnClue2",
-    //     "rowClue3",
-    //     "columnClue3",
-    // ];
 
     const emptyArray = Array(
-        width * width -
-            oasisArray.length -
-            planePartsArray.length -
-            //cluesArray.length -
-            1
+        width * width - oasisArray.length - planePartsArray.length - 1
     ).fill("empty");
 
-    const gameArray = oasisArray.concat(
-        planePartsArray,
-        //cluesArray,
-        emptyArray
-    );
+    const gameArray = oasisArray.concat(planePartsArray, emptyArray);
 
-    const shuffledArray = gameArray.sort(() => Math.random() - 0.5);
+    let shuffledArray = gameArray.sort(() => Math.random() - 0.5);
     const middleIndex = Math.floor((width * width) / 2);
     shuffledArray.splice(middleIndex, 0, "startPosition");
 
@@ -82,10 +69,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
                     let emptyRow = findEmptyInRow(squares, i);
+                    let emptyColumn = findEmptyInColumn(squares, j);
+
                     if (emptyRow !== -1) {
                         squares[i][emptyRow] = "rowClue" + partNumber;
                     }
-                    let emptyColumn = findEmptyInColumn(squares, j);
+
                     if (emptyColumn !== -1) {
                         squares[emptyColumn][j] = "columnClue" + partNumber;
                     }
@@ -112,23 +101,50 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         }
+    }
 
-        for (let i = 0; i < 3; i++) {
-            console.log(
-                "Plane part row" + (i + 1),
-                "column",
-                planePartsData[`planePart${i + 1}`].rowClueX + 1,
-                "row",
-                planePartsData[`planePart${i + 1}`].rowClueY + 1
-            );
-            console.log(
-                "Plane part column" + (i + 1),
-                "column",
-                planePartsData[`planePart${i + 1}`].columnClueX + 1,
-                "row",
-                planePartsData[`planePart${i + 1}`].columnClueY + 1
-            );
+    function everyThingsInPlace(squares) {
+        let empty = 0;
+        let oasis = 0;
+        let mirage = 0;
+        let columnClues = 0;
+        let rowClues = 0;
+        let planeParts = 0;
+        for (let i = 0; i < width; i++) {
+            for (let j = 0; j < width; j++) {
+                if (squares[i][j] === "empty") {
+                    empty++;
+                } else if (squares[i][j] === "oasis") {
+                    oasis++;
+                } else if (squares[i][j] === "mirage") {
+                    mirage++;
+                } else if (squares[i][j].startsWith("columnClue")) {
+                    columnClues++;
+                } else if (squares[i][j].startsWith("rowClue")) {
+                    rowClues++;
+                } else if (squares[i][j].startsWith("planePart")) {
+                    planeParts++;
+                }
+            }
         }
+        // console.log(empty, oasis, mirage, columnClues, rowClues, planeParts);
+        console.log(
+            empty === 11 &&
+                oasis === 3 &&
+                mirage === 1 &&
+                columnClues === 3 &&
+                rowClues === 3 &&
+                planeParts === 3
+        );
+
+        return (
+            empty === 11 &&
+            oasis === 3 &&
+            mirage === 1 &&
+            columnClues === 3 &&
+            rowClues === 3 &&
+            planeParts === 3
+        );
     }
 
     function findEmptyInRow(squares, row) {
@@ -152,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let players = [];
 
     function addPlayer() {
-        const playerName = "Bela";
+        const playerName = prompt("Enter player name:");
         if (playerName) {
             const newPlayer = {
                 name: playerName,
@@ -160,53 +176,51 @@ document.addEventListener("DOMContentLoaded", function () {
                 bottlesOfWater: 6,
             };
             players.push(newPlayer);
-            console.log(`Player ${playerName} added.`);
         } else {
-            console.log("Player name cannot be empty.");
+            console.log("Must enter a name");
         }
     }
 
-    addPlayer();
-
+    
     function playerData() {
         const playerInfoContainer = document.getElementById(
             "playerInfoContainer"
         );
-
+        
         playerInfoContainer.innerHTML = "";
-
+        
         for (let i = 0; i < players.length; i++) {
             const playerDiv = document.createElement("div");
             playerDiv.classList.add("player-info");
-
+            
             const playerName = document.createElement("h2");
-            playerName.innerHTML = `Player ${i + 1}: ${players[i].name}`;
-
+            playerName.innerHTML = `${players[i].name}`;
+            
             const actionsLeft = document.createElement("div");
             actionsLeft.innerHTML = `<img src="./Assets/actions.png" class="small-icon"></img>Actions left: ${players[i].actionsLeft}`;
-
+            
             const waterBottles = document.createElement("p");
             waterBottles.innerHTML = `<img src="./Assets/Water.png" class="small-icon"></img>Water bottles left: ${players[i].bottlesOfWater}`;
-
+            
             playerDiv.appendChild(playerName);
             playerDiv.appendChild(actionsLeft);
             playerDiv.appendChild(waterBottles);
-
+            
             playerInfoContainer.appendChild(playerDiv);
         }
     }
-
+    
     function createBoard() {
         for (let i = 0; i < width; i++) {
             const row = document.createElement("div");
             grid.appendChild(row);
-
+            
             for (let j = 0; j < width; j++) {
                 const square = document.createElement("div");
                 square.setAttribute("id", "sq" + (i * width + j));
-
+                
                 const img = document.createElement("img");
-
+                
                 if (squares[i][j] === "oasis" || squares[i][j] === "mirage") {
                     img.setAttribute("src", "./Assets/Oasis_marker.png");
                     img.setAttribute("class", "oasis-marker");
@@ -229,18 +243,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     playerImg.setAttribute("id", "playerImg");
                     square.appendChild(playerImg);
                 }
-
+                
                 square.classList.add(squares[i][j]);
-
+                
                 row.appendChild(square);
             }
         }
     }
-
+    
+    addPlayer();
     createSquaresMatrix(shuffledArray);
+    // everyThingsInPlace(squares);
+    if (!everyThingsInPlace(squares)) {
+        alert("The board did not generate properly. Please refresh the page.");
+    }
     createBoard();
     playerData();
-    updatePlanePartsData();
 
     function isAdjacent(x1, y1, x2, y2) {
         if (x2 === 2 && y2 === 2) {
@@ -281,6 +299,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 500);
     }
 
+    function isPlanePartCluesFound(planePartNumber) {
+        let rowX = planePartsData[`planePart${planePartNumber}`].rowClueX;
+        let rowY = planePartsData[`planePart${planePartNumber}`].rowClueY;
+        let colX = planePartsData[`planePart${planePartNumber}`].columnClueX;
+        let colY = planePartsData[`planePart${planePartNumber}`].columnClueY;
+        const rowClue = `${rowY},${rowX}`;
+        const columnClue = `${colY},${colX}`;
+        console.log(rowClue, columnClue);
+        return dugTiles.includes(rowClue) && dugTiles.includes(columnClue);
+    }
+
     function dig(clickedX, clickedY) {
         console.log(`You chose to DIG at (${clickedX}, ${clickedY}).`);
         const currentPlayerTile = squares[clickedY][clickedX];
@@ -311,25 +340,35 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (tileImg && !dugTiles.includes(`${clickedX},${clickedY}`)) {
             if (currentPlayerTile.startsWith("planePart")) {
                 const planePartNumber = currentPlayerTile.slice(-1);
-                tileImg.src =
-                    planePartsData[`planePart${planePartNumber}`].imgSrc;
-                tileImg.style.opacity = 1;
+                if (isPlanePartCluesFound(planePartNumber)) {
+                    tileImg.src =
+                        planePartsData[`planePart${planePartNumber}`].imgSrc;
+                    tileImg.style.opacity = 1;
+                    dugTiles.push(`${clickedX},${clickedY}`);
+                } else {
+                    tileImg.src =
+                        planePartsData[`planePart${planePartNumber}`].imgSrc;
+                    tileImg.style.opacity = 0.5;
+                }
             } else if (currentPlayerTile.startsWith("rowClue")) {
                 const clueNumber = currentPlayerTile.slice(-1);
                 tileImg.src =
                     planePartsData[`planePart${clueNumber}`].rowClueSrc;
                 tileImg.style.opacity = 1;
+                dugTiles.push(`${clickedX},${clickedY}`);
             } else if (currentPlayerTile.startsWith("columnClue")) {
                 const clueNumber = currentPlayerTile.slice(-1);
                 tileImg.src =
                     planePartsData[`planePart${clueNumber}`].columnClueSrc;
                 tileImg.style.opacity = 1;
+                dugTiles.push(`${clickedX},${clickedY}`);
             } else if (currentPlayerTile === "empty") {
                 tileImg.src = "./Assets/Hole.png";
                 tileImg.style.opacity = 1;
                 tileImg.setAttribute("class", "hole");
+                dugTiles.push(`${clickedX},${clickedY}`);
             }
-            dugTiles.push(`${clickedX},${clickedY}`);
+            console.log(dugTiles);
             players[0].actionsLeft--;
 
             if (
@@ -344,8 +383,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     grid.addEventListener("click", function (event) {
+        if (players[0].bottlesOfWater === 1 && players[0].actionsLeft === 0) {
+            alert("Game Over! You ran out of water bottles.");
+            return;
+        }
+    
         const clickedElement = event.target;
-
+    
         if (clickedElement.tagName === "IMG" || clickedElement.closest("img")) {
             const parentSquare = clickedElement.closest("div");
             if (parentSquare) {
@@ -353,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const clickedIndex = parseInt(index);
                 const clickedX = clickedIndex % width;
                 const clickedY = Math.floor(clickedIndex / width);
-
+    
                 if (players[0].actionsLeft > 0) {
                     if (
                         isAdjacent(
@@ -366,18 +410,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         movePlayer(clickedX, clickedY);
                         players[0].actionsLeft--;
                         playerData();
-                        if (players[0].actionsLeft === 0) {
+                        if (players[0].actionsLeft === 0 && players[0].bottlesOfWater > 0) {
                             players[0].bottlesOfWater--;
                             players[0].actionsLeft = 3;
                             playerData();
                             if (players[0].bottlesOfWater < 1) {
-                                const gameOverAlert =
-                                    document.createElement("div");
-                                gameOverAlert.classList.add("game-over-alert");
-                                gameOverAlert.textContent =
-                                    "Game Over! You ran out of water bottles.";
-                                document.body.appendChild(gameOverAlert);
-                                return;
+                                console.log("Game over");
                             }
                         }
                     } else {
@@ -390,7 +428,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             if (players[0].actionsLeft > 0) {
                 playerData();
-
+    
                 if (
                     players[0].bottlesOfWater === 0 &&
                     players[0].actionsLeft === 0
@@ -403,6 +441,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+    
+     
 
     const digButton = document.querySelector(".dig");
     digButton.addEventListener("click", function () {
@@ -419,7 +459,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (players[0].actionsLeft < 1) {
-                console.log("ugysem tortenik semmi");
                 players[0].actionsLeft = 3;
                 playerData();
             }
@@ -427,32 +466,4 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("You have no more actions left.");
         }
     });
-
-    function updatePlanePartsData() {
-        const container = document.getElementById("planePartsInfo");
-        Object.values(planePartsData).forEach((part) => {
-            const planePartDiv = document.createElement("div");
-            planePartDiv.classList.add("plane-part-info");
-
-            const image = document.createElement("img");
-            image.src = part.imgSrc;
-            image.classList.add("icon");
-            planePartDiv.appendChild(image);
-
-            const labelsDiv = document.createElement("div");
-            labelsDiv.classList.add("plane-part-labels");
-
-            const columnLabel = document.createElement("p");
-            columnLabel.textContent = `COLUMN: ${part.columnClue}`;
-            const rowLabel = document.createElement("p");
-            rowLabel.textContent = `ROW: ${part.rowClue}`;
-
-            labelsDiv.appendChild(columnLabel);
-            labelsDiv.appendChild(rowLabel);
-
-            planePartDiv.appendChild(labelsDiv);
-
-            container.appendChild(planePartDiv);
-        });
-    }
 });

@@ -29,7 +29,7 @@ ELTE Hallgatói Követelményrendszer, IK kari különös rész, 377/A. §: "Az 
 [x] Akciók: A játékos 3 tetszőleges akciót hajthat végre a körben (1 pont)
 [x] Akciók: Jelezve van, hány akciót tud még végrehajtani a körében,(1 pont)
 [x] Akciók: A játékos vízkészlete csökken eggyel az köre végén. (0,5 pont)
-[ ] Ásás: Minden alkatrészt csak azután lehet megszerezni, miután meg lett találva a két nyom. (1 pont)
+[x] Ásás: Minden alkatrészt csak azután lehet megszerezni, miután meg lett találva a két nyom. (1 pont)
 [x] Ásás: Ha oázis mezőn végzi a játékos az ásás akciót, feltöltődik a vízkészlete. (1 pont)
 [x] Ásás: A négy oázis közül csak háromnál lehet feltölteni a vízkészletet. (1 pont)
 [x] Játék vége: Ha egy játékosnak elfogy a vize, vége a játéknak. (0,5 pont)
