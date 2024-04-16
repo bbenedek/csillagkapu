@@ -17,10 +17,11 @@ ELTE Hallgatói Követelményrendszer, IK kari különös rész, 377/A. §: "Az 
 [x] Játéktér: A játéktér egy 5x5-ös táblával megjelennek. (1 pont)
 [x] Játéktér: Ugyanebben a táblában megjelennek véletlenszerű helyen az oázisok (2 pont)
 [x] Játéktér: A tábla közepére fel van helyezve legalább 1 játékos figurája (1 pont)
-[x] Mozgás: A figurával szabályosan lehet lépni a szomszédos mező valamelyikére. (2 pont) 
+[x] Mozgás: A figurával szabályosan lehet lépni a szomszédos mező valamelyikére. (2 pont)
 [x] Ásás: A mezőelemet, amin a játékos áll fel tudjuk fedni és jelezve van, hogy mi van alatta. (2 pont)
 
 ## Az alap feladatok (12 pont)
+
 [x] Kezdőképernyő: a játékosnak lehetősége van nevet beállítani (0,5 pont)
 [x] Kezdőképernyő: játékosok alap vízkészletének beállítása (0,5 pont)
 [x] Játéktér: véletlenszerű kiosztásra kerülnek a nyomok, melyek a játékos számára kezdetben nem láthatóak. (1 pont)
@@ -28,11 +29,11 @@ ELTE Hallgatói Követelményrendszer, IK kari különös rész, 377/A. §: "Az 
 [x] Akciók: A játékos 3 tetszőleges akciót hajthat végre a körben (1 pont)
 [x] Akciók: Jelezve van, hány akciót tud még végrehajtani a körében,(1 pont)
 [x] Akciók: A játékos vízkészlete csökken eggyel az köre végén. (0,5 pont)
-[ ] Ásás: Minden alkatrészt csak azután lehet megszerezni, miután meg lett találva a két nyom. (1  pont)
+[ ] Ásás: Minden alkatrészt csak azután lehet megszerezni, miután meg lett találva a két nyom. (1 pont)
 [x] Ásás: Ha oázis mezőn végzi a játékos az ásás akciót, feltöltődik a vízkészlete. (1 pont)
 [x] Ásás: A négy oázis közül csak háromnál lehet feltölteni a vízkészletet. (1 pont)
 [x] Játék vége: Ha egy játékosnak elfogy a vize, vége a játéknak. (0,5 pont)
-[ ] Játék vége: Ha mindhárom alkatrész megtalálásra került, akkor  a játéknak győzelemmel van vége. (0,5 pont)
+[ ] Játék vége: Ha mindhárom alkatrész megtalálásra került, akkor a játéknak győzelemmel van vége. (0,5 pont)
 [ ] Többjátékos mód: játékos szám beállítása (0,5 pont)
 [ ] Többjátékos mód: a játékosok figurái a tábla közepén megjelennek (0,5 pont)
 [ ] Többjátékos mód: jelezve van, hogy melyik az aktuális játékos (0,5 pont)
@@ -40,6 +41,7 @@ ELTE Hallgatói Követelményrendszer, IK kari különös rész, 377/A. §: "Az 
 [x] Igényes megjelenés (1 pont)
 
 ## Plusz feladatok (5 pont)
+
 [ ] Játéktér: a játék kezdetekor indíts el egy számlálót, amely másodpercenként frissülve jelzi a játékból eltelt időt. (1 pont)
 [ ] Kezdőképernyő: legyen lehetősége a játékos(ok)nak megadni, hogy mennyi idő alatt szeretnék teljesíteni a játékot, és a megadott idő eltelte után a játék érjen véget (1 pont)
 [ ] Lépés: a lépés animációval történik (1 pont)

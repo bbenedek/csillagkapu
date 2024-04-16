@@ -4,53 +4,59 @@ document.addEventListener("DOMContentLoaded", function () {
     let squares = [];
     let dugTiles = [];
     let playerPosition = { x: 2, y: 2 };
-    let selectedAction = null;
 
-    const oasisArray = ["oasis", "oasis", "oasis", "mirage"];
-    const planePartsArray = ["planePart1", "planePart2", "planePart3"];
-    const cluesArray = [
-        "rowClue1",
-        "columnClue1",
-        "rowClue2",
-        "columnClue2",
-        "rowClue3",
-        "columnClue3",
-    ];
     let planePartsData = {
         planePart1: {
-            rowClue: null,
-            columnClue: null,
-            imgSrc: "/Assets/Item1.png",
-            rowClueSrc: "/Assets/cluerow1.png",
-            columnClueSrc: "/Assets/cluecol1.png",
+            rowClueX: null,
+            rowClueY: null,
+            columnClueX: null,
+            columnClueY: null,
+            imgSrc: "../Assets/Item1.png",
+            rowClueSrc: "../Assets/cluecol1.png",
+            columnClueSrc: "../Assets/cluerow1.png",
         },
         planePart2: {
-            rowClue: null,
-            columnClue: null,
-            imgSrc: "/Assets/Item2.png",
-            rowClueSrc: "/Assets/cluerow2.png",
-            columnClueSrc: "/Assets/cluecol2.png",
+            rowClueX: null,
+            rowClueY: null,
+            columnClueX: null,
+            columnClueY: null,
+            imgSrc: "../Assets/Item2.png",
+            rowClueSrc: "../Assets/cluecol2.png",
+            columnClueSrc: "../Assets/cluerow2.png",
         },
         planePart3: {
-            rowClue: null,
-            columnClue: null,
-            imgSrc: "/Assets/Item3.png",
-            rowClueSrc: "/Assets/cluerow3.png",
-            columnClueSrc: "/Assets/cluecol3.png",
+            rowClueX: null,
+            rowClueY: null,
+            columnClueX: null,
+            columnClueY: null,
+            imgSrc: "../Assets/Item3.png",
+            rowClueSrc: "../Assets/cluecol3.png",
+            columnClueSrc: "../Assets/cluerow3.png",
         },
     };
+    const planePartsArray = ["planePart1", "planePart2", "planePart3"];
+
+    const oasisArray = ["oasis", "oasis", "oasis", "mirage"];
+    // const cluesArray = [
+    //     "rowClue1",
+    //     "columnClue1",
+    //     "rowClue2",
+    //     "columnClue2",
+    //     "rowClue3",
+    //     "columnClue3",
+    // ];
 
     const emptyArray = Array(
         width * width -
             oasisArray.length -
             planePartsArray.length -
-            cluesArray.length -
+            //cluesArray.length -
             1
     ).fill("empty");
 
     const gameArray = oasisArray.concat(
         planePartsArray,
-        cluesArray,
+        //cluesArray,
         emptyArray
     );
 
@@ -71,25 +77,76 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < width; i++) {
             for (let j = 0; j < width; j++) {
                 if (squares[i][j].startsWith("planePart")) {
-                    const planePartNumber = squares[i][j].slice(-1);
-                    planePartsData[`planePart${planePartNumber}`].rowClue =
-                        j + 1;
-                    planePartsData[`planePart${planePartNumber}`].columnClue =
-                        i + 1;
+                    const partNumber = parseInt(
+                        squares[i][j].replace("planePart", "")
+                    );
+
+                    let emptyRow = findEmptyInRow(squares, i);
+                    if (emptyRow !== -1) {
+                        squares[i][emptyRow] = "rowClue" + partNumber;
+                    }
+                    let emptyColumn = findEmptyInColumn(squares, j);
+                    if (emptyColumn !== -1) {
+                        squares[emptyColumn][j] = "columnClue" + partNumber;
+                    }
                 }
             }
         }
 
-        // for (let i = 0; i < width; i++) {
-        //     for (let j = 0; j < width; j++) {
-        //         if (squares[i][j].startsWith("planePart")) {
-        //             const planePartNumber = squares[i][j].slice(-1);
-        //             const rowCluePos = planePartsData[`planePart${planePartNumber}`].columnClue - 1;
-        //             const colCluePos = planePartsData[`planePart${planePartNumber}`].rowClue - 1;
-        //             [squares[i][j], squares[colCluePos][rowCluePos]] = [squares[colCluePos][rowCluePos], squares[i][j]];
-        //         }
-        //     }
-        // }
+        for (let i = 0; i < width; i++) {
+            for (let j = 0; j < width; j++) {
+                if (squares[i][j].startsWith("rowClue")) {
+                    const partNumber = squares[i][j].slice(-1);
+                    planePartsData[`planePart${partNumber}`].rowClueX = i;
+                    planePartsData[`planePart${partNumber}`].rowClueY = j;
+                }
+            }
+        }
+
+        for (let i = 0; i < width; i++) {
+            for (let j = 0; j < width; j++) {
+                if (squares[i][j].startsWith("columnClue")) {
+                    const partNumber = squares[i][j].slice(-1);
+                    planePartsData[`planePart${partNumber}`].columnClueX = i;
+                    planePartsData[`planePart${partNumber}`].columnClueY = j;
+                }
+            }
+        }
+
+        for (let i = 0; i < 3; i++) {
+            console.log(
+                "Plane part row" + (i + 1),
+                "column",
+                planePartsData[`planePart${i + 1}`].rowClueX + 1,
+                "row",
+                planePartsData[`planePart${i + 1}`].rowClueY + 1
+            );
+            console.log(
+                "Plane part column" + (i + 1),
+                "column",
+                planePartsData[`planePart${i + 1}`].columnClueX + 1,
+                "row",
+                planePartsData[`planePart${i + 1}`].columnClueY + 1
+            );
+        }
+    }
+
+    function findEmptyInRow(squares, row) {
+        for (let i = 0; i < width; i++) {
+            if (squares[row][i] === "empty") {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    function findEmptyInColumn(squares, column) {
+        for (let i = 0; i < width; i++) {
+            if (squares[i][column] === "empty") {
+                return i;
+            }
+        }
+        return -1;
     }
 
     let players = [];
@@ -126,10 +183,10 @@ document.addEventListener("DOMContentLoaded", function () {
             playerName.innerHTML = `Player ${i + 1}: ${players[i].name}`;
 
             const actionsLeft = document.createElement("div");
-            actionsLeft.innerHTML = `<img src="/Assets/actions.png" class="small-icon"></img>Actions left: ${players[i].actionsLeft}`;
+            actionsLeft.innerHTML = `<img src="../Assets/actions.png" class="small-icon"></img>Actions left: ${players[i].actionsLeft}`;
 
             const waterBottles = document.createElement("p");
-            waterBottles.innerHTML = `<img src="/Assets/Water.png" class="small-icon"></img>Water bottles left: ${players[i].bottlesOfWater}`;
+            waterBottles.innerHTML = `<img src="../Assets/Water.png" class="small-icon"></img>Water bottles left: ${players[i].bottlesOfWater}`;
 
             playerDiv.appendChild(playerName);
             playerDiv.appendChild(actionsLeft);
@@ -151,14 +208,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 const img = document.createElement("img");
 
                 if (squares[i][j] === "oasis" || squares[i][j] === "mirage") {
-                    img.setAttribute("src", "/Assets/Oasis_marker.png");
+                    img.setAttribute("src", "../Assets/Oasis_marker.png");
                     img.setAttribute("class", "oasis-marker");
                     square.appendChild(img);
                 } else if (i * width + j === middleIndex) {
-                    img.setAttribute("src", "/Assets/Stargate.png");
+                    img.setAttribute("src", "../Assets/Stargate.png");
                     square.appendChild(img);
                 } else {
-                    img.setAttribute("src", "/Assets/background.png");
+                    img.setAttribute("src", "../Assets/background.png");
                     img.setAttribute("class", "background");
                     square.appendChild(img);
                 }
@@ -168,10 +225,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         "sq" + (i * width + j) + "-player1"
                     );
                     const playerImg = document.createElement("img");
-                    playerImg.setAttribute("src", "/Assets/Player.png");
+                    playerImg.setAttribute("src", "../Assets/Player.png");
                     playerImg.setAttribute("id", "playerImg");
                     square.appendChild(playerImg);
                 }
+
                 square.classList.add(squares[i][j]);
 
                 row.appendChild(square);
@@ -211,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
         newPlayerSquare.setAttribute("id", `sq${newY * width + newX}-player1`);
 
         const newPlayerImg = document.createElement("img");
-        newPlayerImg.setAttribute("src", "/Assets/Player.png");
+        newPlayerImg.setAttribute("src", "../Assets/Player.png");
         newPlayerImg.setAttribute("id", "playerImg");
 
         newPlayerSquare.appendChild(newPlayerImg);
@@ -235,14 +293,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (markerImg) {
             if (currentPlayerTile === "oasis") {
                 players[0].actionsLeft--;
-                markerImg.src = "/Assets/Oasis.png";
+                markerImg.src = "../Assets/Oasis.png";
                 players[0].bottlesOfWater = 6;
             } else if (
                 currentPlayerTile === "mirage" &&
                 !dugTiles.includes(`${clickedX},${clickedY}`)
             ) {
                 players[0].actionsLeft--;
-                markerImg.src = "/Assets/Drought.png";
+                markerImg.src = "../Assets/Drought.png";
                 dugTiles.push(`${clickedX},${clickedY}`);
             } else {
                 console.log(
@@ -258,7 +316,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 tileImg.style.opacity = 1;
             } else if (currentPlayerTile.startsWith("rowClue")) {
                 const clueNumber = currentPlayerTile.slice(-1);
-                console.log(clueNumber);
                 tileImg.src =
                     planePartsData[`planePart${clueNumber}`].rowClueSrc;
                 tileImg.style.opacity = 1;
@@ -267,9 +324,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 tileImg.src =
                     planePartsData[`planePart${clueNumber}`].columnClueSrc;
                 tileImg.style.opacity = 1;
-                
             } else if (currentPlayerTile === "empty") {
-                tileImg.src = "/Assets/Hole.png";
+                tileImg.src = "../Assets/Hole.png";
                 tileImg.style.opacity = 1;
                 tileImg.setAttribute("class", "hole");
             }
@@ -288,7 +344,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     grid.addEventListener("click", function (event) {
-
         const clickedElement = event.target;
 
         if (clickedElement.tagName === "IMG" || clickedElement.closest("img")) {
@@ -315,10 +370,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             players[0].bottlesOfWater--;
                             players[0].actionsLeft = 3;
                             playerData();
-                            if (players[0].bottlesOfWater === 0) {
-                                console.log(
-                                    "Game Over! You ran out of water bottles."
-                                );
+                            if (players[0].bottlesOfWater < 1) {
+                                const gameOverAlert =
+                                    document.createElement("div");
+                                gameOverAlert.classList.add("game-over-alert");
+                                gameOverAlert.textContent =
+                                    "Game Over! You ran out of water bottles.";
+                                document.body.appendChild(gameOverAlert);
+                                return;
                             }
                         }
                     } else {
@@ -329,14 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         } else {
-            const index = clickedElement.id.replace("sq", "");
-            const clickedIndex = parseInt(index);
-            const clickedX = clickedIndex % width;
-            const clickedY = Math.floor(clickedIndex / width);
-
             if (players[0].actionsLeft > 0) {
-                dig(clickedX, clickedY);
-                players[0].actionsLeft--;
                 playerData();
 
                 if (
@@ -344,18 +396,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     players[0].actionsLeft === 0
                 ) {
                     console.log("Game Over! You ran out of water bottles.");
+                    return;
                 }
             } else {
-                console.log(
-                    "You have no more actions left or no action selected."
-                );
+                console.log("You have no more actions left.");
             }
         }
     });
 
     const digButton = document.querySelector(".dig");
     digButton.addEventListener("click", function () {
-
         if (players[0].actionsLeft > 0 && players[0].bottlesOfWater > 0) {
             dig(playerPosition.x, playerPosition.y);
             playerData();
