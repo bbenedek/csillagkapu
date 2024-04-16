@@ -208,14 +208,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 const img = document.createElement("img");
 
                 if (squares[i][j] === "oasis" || squares[i][j] === "mirage") {
-                    img.setAttribute("src", "/Assets/Oasis_marker.png");
+                    img.setAttribute("src", "./Assets/Oasis_marker.png");
                     img.setAttribute("class", "oasis-marker");
                     square.appendChild(img);
                 } else if (i * width + j === middleIndex) {
-                    img.setAttribute("src", "/Assets/Stargate.png");
+                    img.setAttribute("src", "./Assets/Stargate.png");
                     square.appendChild(img);
                 } else {
-                    img.setAttribute("src", "/Assets/background.png");
+                    img.setAttribute("src", "./Assets/background.png");
                     img.setAttribute("class", "background");
                     square.appendChild(img);
                 }
@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "sq" + (i * width + j) + "-player1"
                     );
                     const playerImg = document.createElement("img");
-                    playerImg.setAttribute("src", "/Assets/Player.png");
+                    playerImg.setAttribute("src", "./Assets/Player.png");
                     playerImg.setAttribute("id", "playerImg");
                     square.appendChild(playerImg);
                 }
